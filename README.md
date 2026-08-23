@@ -27,8 +27,6 @@
 
 ---
 
-This file is the **handover document**. Copy it into Word/Google Docs if a separate file is required. Pair with the GitHub repository and a short demo recording.
-
 SQL and Edge Functions are authoritative if they disagree with the UI.
 
 | Contents | Anchor |
