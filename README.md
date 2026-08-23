@@ -27,8 +27,6 @@
 
 ---
 
-SQL and Edge Functions are authoritative if they disagree with the UI.
-
 | Contents | Anchor |
 |---|---|
 | Product and scope | [Product](#product) |
