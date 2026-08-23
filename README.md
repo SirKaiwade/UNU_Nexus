@@ -5,7 +5,7 @@
 <h1 align="center">UNU Nexus</h1>
 
 <p align="center">
-  <strong>Handover — United Nations University · Global Health</strong><br />
+  <strong>Handover - United Nations University · Global Health</strong><br />
   Internal staff workspace: cited Q&amp;A, knowledge library, directory, events, and publications.
 </p>
 
@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  You are on the short handover. The technical document is optional — architecture, database rules, and a full install runthrough if you ever need it.
+  You are on the short handover. The technical document is optional - architecture, database rules, and a full install runthrough if you ever need it.
 </p>
 
 <p align="center">
@@ -46,9 +46,9 @@ If you later need system architecture, Row Level Security, Edge Functions, or a 
 After sign-in, staff can:
 
 1. **Ask questions** of programme material and get **cited** answers (`[1] [2]`). Clicking a citation shows a verbatim quote.
-2. **Keep a knowledge library** — folder trees of PDF, Word, Excel, and text. Administrators decide who can read or edit, and can lock folders to named people.
-3. **Keep shared registers** — directory, events matrix, and publications — with spreadsheet import and inline edit.
-4. **Administer access** — library roles, bans, disabled accounts, folder visibility.
+2. **Keep a knowledge library** - folder trees of PDF, Word, Excel, and text. Administrators decide who can read or edit, and can lock folders to named people.
+3. **Keep shared registers** - directory, events matrix, and publications - with spreadsheet import and inline edit.
+4. **Administer access** - library roles, bans, disabled accounts, folder visibility.
 
 Answers come from **library text the person is allowed to read**, plus the **events** and **publications** registers. Chat history is **per person**. Other people’s threads are not visible.
 
@@ -79,7 +79,7 @@ The site is hosted on **Vercel** (built from this GitHub repo). **Supabase** hol
 | Administrator dashboard for people, bans, folder locks | Classified / accredited hosting; UN-wide identity beyond `@unu.edu` magic link |
 | Optional SharePoint **import** after Azure AD approval | SharePoint as the live editor inside Nexus |
 
-Typical scale: about **10–15 staff**, Claude Haiku, 40 chat requests per person per 10 minutes.
+Typical scale: about **10-15 staff**, Claude Haiku, 40 chat requests per person per 10 minutes.
 
 ---
 
@@ -106,21 +106,21 @@ Tick these in order. Details for each item are under [Deploy it yourself](#deplo
 
 ### Accounts and ownership
 
-- [ ] **GitHub** — Invite the UN owner as admin, or transfer [SirKaiwade/UNU_Nexus](https://github.com/SirKaiwade/UNU_Nexus) to a UN organisation. Keep Vercel pointed at the same repo.
-- [ ] **Vercel** — Transfer the project to a UN team, or recreate it against the same repo. This is where the custom domain is attached.
-- [ ] **Supabase** — Invite the UN email as **Owner** (Project Settings → General → Transfer project, or Organization → Members). Do **not** send the `service_role` key over chat or email. Optional: rotate the database password after transfer.
-- [ ] **Anthropic (Claude)** — Create a UN-held account at [console.anthropic.com](https://console.anthropic.com), add billing, generate a new API key, **replace** the key currently stored on Supabase, confirm Chat works, then **revoke** the old key.
+- [ ] **GitHub** - Invite the UN owner as admin, or transfer [SirKaiwade/UNU_Nexus](https://github.com/SirKaiwade/UNU_Nexus) to a UN organisation. Keep Vercel pointed at the same repo.
+- [ ] **Vercel** - Transfer the project to a UN team, or recreate it against the same repo. This is where the custom domain is attached.
+- [ ] **Supabase** - Invite the UN email as **Owner** (Project Settings → General → Transfer project, or Organization → Members). Do **not** send the `service_role` key over chat or email. Optional: rotate the database password after transfer.
+- [ ] **Anthropic (Claude)** - Create a UN-held account at [console.anthropic.com](https://console.anthropic.com), add billing, generate a new API key, **replace** the key currently stored on Supabase, confirm Chat works, then **revoke** the old key.
 
 ### Domain and go-live
 
-- [ ] **Domain** — Use a UNU subdomain (typical: `nexus.unu.edu`) or buy/assign another hostname. In Vercel → Project → Settings → Domains, add it. In DNS, create the CNAME Vercel shows (often `cname.vercel-dns.com`). Wait until HTTPS is **Valid**.
-- [ ] **Tell sign-in about the new URL** — Supabase → Authentication → URL configuration: Site URL = `https://your-domain` (no trailing slash). Redirect URLs must include `https://your-domain/**` and the `*.vercel.app` URL if that address still works.
-- [ ] **Tell Chat about the new URL** — from a machine with the [Supabase CLI](https://supabase.com/docs/guides/cli):  
+- [ ] **Domain** - Use a UNU subdomain (typical: `nexus.unu.edu`) or buy/assign another hostname. In Vercel → Project → Settings → Domains, add it. In DNS, create the CNAME Vercel shows (often `cname.vercel-dns.com`). Wait until HTTPS is **Valid**.
+- [ ] **Tell sign-in about the new URL** - Supabase → Authentication → URL configuration: Site URL = `https://your-domain` (no trailing slash). Redirect URLs must include `https://your-domain/**` and the `*.vercel.app` URL if that address still works.
+- [ ] **Tell Chat about the new URL** - from a machine with the [Supabase CLI](https://supabase.com/docs/guides/cli):  
       `supabase secrets set ALLOWED_ORIGINS=https://your-domain,https://YOUR_APP.vercel.app`  
       No trailing slash, no `*`.
-- [ ] **Claude key replaced** — `supabase secrets set ANTHROPIC_API_KEY=sk-ant-…` using the new UN key. Ask a question in Chat. Then revoke the previous key in the old Anthropic console.
-- [ ] **Admin on a UN mailbox** — Add the ICT `@unu.edu` address to bootstrap admins (see Technical Documentation) or sign in once and have the current admin promote them in Administrator Dashboard.
-- [ ] **Smoke test** — Magic link lands inside the app. Chat replies (not “API key is not set”). A second test user cannot open Admin and cannot see the library until granted.
+- [ ] **Claude key replaced** - `supabase secrets set ANTHROPIC_API_KEY=sk-ant-…` using the new UN key. Ask a question in Chat. Then revoke the previous key in the old Anthropic console.
+- [ ] **Admin on a UN mailbox** - Add the ICT `@unu.edu` address to bootstrap admins (see Technical Documentation) or sign in once and have the current admin promote them in Administrator Dashboard.
+- [ ] **Smoke test** - Magic link lands inside the app. Chat replies (not “API key is not set”). A second test user cannot open Admin and cannot see the library until granted.
 
 ### Leave these alone unless ICT is rotating credentials
 
@@ -132,7 +132,7 @@ Tick these in order. Details for each item are under [Deploy it yourself](#deplo
 
 ## Deploy it yourself
 
-Hands-on time is about **90–150 minutes**, plus DNS. You need a GitHub account, a [Vercel](https://vercel.com) account, a [Supabase](https://supabase.com) account, and an [Anthropic](https://console.anthropic.com) account. Use organisation/team logins, not a personal account you might leave.
+Hands-on time is about **90-150 minutes**, plus DNS. You need a GitHub account, a [Vercel](https://vercel.com) account, a [Supabase](https://supabase.com) account, and an [Anthropic](https://console.anthropic.com) account. Use organisation/team logins, not a personal account you might leave.
 
 ### A. You are taking over the app that is already running
 
@@ -145,9 +145,9 @@ You do not need to recreate the database. Staff data stays in the existing Supab
 
 ### B. You are standing up a clean copy
 
-1. **Code** — Fork or clone this repository. Vercel will build from `main`.
-2. **Supabase** — New project. Copy the Project URL and the **anon public** key (not `service_role`). In SQL Editor, run these files **in order**, one at a time: `supabase/schema.sql` → `supabase/permissions.sql` → `supabase/security.sql`.
-3. **Auth** — Email provider on (magic link). Site URL and Redirect URLs set to your Vercel URL (and later the custom domain). Optional but recommended: UN SMTP so magic-link mail is not treated as spam.
+1. **Code** - Fork or clone this repository. Vercel will build from `main`.
+2. **Supabase** - New project. Copy the Project URL and the **anon public** key (not `service_role`). In SQL Editor, run these files **in order**, one at a time: `supabase/schema.sql` → `supabase/permissions.sql` → `supabase/security.sql`.
+3. **Auth** - Email provider on (magic link). Site URL and Redirect URLs set to your Vercel URL (and later the custom domain). Optional but recommended: UN SMTP so magic-link mail is not treated as spam.
 4. **Functions and secrets**
    ```bash
    npm install -g supabase
@@ -158,9 +158,9 @@ You do not need to recreate the database. Staff data stays in the existing Supab
    supabase secrets set ANTHROPIC_API_KEY=sk-ant-...
    supabase secrets set ALLOWED_ORIGINS=https://YOUR_APP.vercel.app
    ```
-5. **Vercel** — Import the GitHub repo (Vite, repo root). Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. Deploy. Open the `*.vercel.app` URL; you should see the Nexus login page.
-6. **Domain** — Vercel → Domains → add hostname → DNS CNAME → wait for HTTPS. Then repeat the Auth URL and `ALLOWED_ORIGINS` updates so they include `https://your-domain`.
-7. **First sign-in** — Request a magic link for the bootstrap admin email. Confirm Administrator Dashboard is visible. Ask Chat a question. Create a second `@unu.edu` user and confirm they have **no** library until you grant it.
+5. **Vercel** - Import the GitHub repo (Vite, repo root). Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. Deploy. Open the `*.vercel.app` URL; you should see the Nexus login page.
+6. **Domain** - Vercel → Domains → add hostname → DNS CNAME → wait for HTTPS. Then repeat the Auth URL and `ALLOWED_ORIGINS` updates so they include `https://your-domain`.
+7. **First sign-in** - Request a magic link for the bootstrap admin email. Confirm Administrator Dashboard is visible. Ask Chat a question. Create a second `@unu.edu` user and confirm they have **no** library until you grant it.
 
 If something fails (magic link dumps you on login, Chat says origin not allowed, build mentions Anthropic), the fix is almost always: URLs must match **exactly** (https, no trailing slash, www vs not), or a secret is on the wrong vendor. The troubleshooting table is in [Technical Documentation](TECHNICAL.md#troubleshooting).
 
@@ -172,10 +172,10 @@ In **Administrator Dashboard**:
 
 | Task | Where |
 |---|---|
-| Grant library **read** or **edit** | People — users appear after their first successful sign-in |
-| Make another admin | People — do not remove admin from the bootstrap address |
-| Ban / unban | Banned emails — they cannot sign in; sessions are revoked |
-| Disable or delete | People — delete is irreversible |
+| Grant library **read** or **edit** | People - users appear after their first successful sign-in |
+| Make another admin | People - do not remove admin from the bootstrap address |
+| Ban / unban | Banned emails - they cannot sign in; sessions are revoked |
+| Disable or delete | People - delete is irreversible |
 | Lock a folder | Knowledge library → manage who can see this |
 
 Directory, events, and publications are **shared**. Any signed-in staff member can edit those rows. Export the events and publications sheets from time to time if you rely on them.

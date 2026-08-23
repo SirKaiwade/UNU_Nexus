@@ -5,7 +5,7 @@
 <h1 align="center">UNU Nexus</h1>
 
 <p align="center">
-  <strong>Technical documentation — United Nations University · Global Health</strong><br />
+  <strong>Technical documentation - United Nations University · Global Health</strong><br />
   Architecture, data, access control, and a full deploy runthrough.
 </p>
 
@@ -55,9 +55,9 @@ Nexus is an **internal staff application** for UNU Global Health. It is not a pu
 Staff authenticate with an **`@unu.edu` magic link** (no password). After sign-in they can:
 
 1. **Ask questions** of programme material and receive cited answers.
-2. **Maintain a knowledge library** — folder trees of PDF, Word, Excel, and text, subject to roles and folder allow-lists.
-3. **Maintain shared registers** — directory, events matrix, publications — with spreadsheet import and inline edit.
-4. **Administer access** — library roles, bans, disabled accounts, folder visibility.
+2. **Maintain a knowledge library** - folder trees of PDF, Word, Excel, and text, subject to roles and folder allow-lists.
+3. **Maintain shared registers** - directory, events matrix, publications - with spreadsheet import and inline edit.
+4. **Administer access** - library roles, bans, disabled accounts, folder visibility.
 
 Nexus answers from uploaded library text (that the caller is allowed to read) plus the events and publications registers. It does not search the public internet. If the corpus does not support an answer, the model is instructed to say so.
 
@@ -176,7 +176,7 @@ Folder naming affects “where is X?” as much as file contents.
 | Access limited to UNU | Accounts must be `@unu.edu`. Banned and disabled users are rejected at Auth, at the database, and at chat/admin. |
 | Library access | Default for new users is none. Folders can be locked. |
 | UN security accreditation | This is an internal access model, not an accreditation package. ICT owns vendor accounts, domain, SMTP, and key rotation. See [Deploy](#deploy) and [Access control](#access-control). |
-| Model cost | Claude Haiku; 40 chat requests / 10 minutes / user. Vercel + Supabase at typical 10–15 staff scale. |
+| Model cost | Claude Haiku; 40 chat requests / 10 minutes / user. Vercel + Supabase at typical 10-15 staff scale. |
 
 ---
 
@@ -212,18 +212,18 @@ flowchart TB
     S["UNU staff<br/>browser or phone"]
   end
 
-  subgraph Hosting["Website hosting — Vercel"]
+  subgraph Hosting["Website hosting - Vercel"]
     APP["Nexus app"]
   end
 
-  subgraph Platform["Backend — Supabase"]
+  subgraph Platform["Backend - Supabase"]
     AUTH["Auth<br/>magic link, @unu.edu"]
     DB[("Postgres<br/>Row Level Security")]
     CHAT["chat function"]
     ADMIN["admin function"]
   end
 
-  subgraph Model["AI — Anthropic"]
+  subgraph Model["AI - Anthropic"]
     CLAUDE["Claude Haiku"]
   end
 
@@ -278,9 +278,9 @@ The website is a static app (HTML/JavaScript) hosted on **Vercel**, rebuilt when
 
 Sign-in and data live on **Supabase**:
 
-- **Auth** — magic-link email, session tokens.
-- **Postgres** — tables with **Row Level Security**.
-- **Edge Functions** — `chat` and `admin`; hold secrets and checks the client is not trusted to enforce.
+- **Auth** - magic-link email, session tokens.
+- **Postgres** - tables with **Row Level Security**.
+- **Edge Functions** - `chat` and `admin`; hold secrets and checks the client is not trusted to enforce.
 
 The model is **Anthropic Claude Haiku**. Only `chat` may call it. The key is a Supabase **secret**, not a Vercel `VITE_` variable.
 
@@ -309,12 +309,12 @@ flowchart LR
 | Stack | React 18, TypeScript, Vite, Tailwind, React Router |
 | Routes | `/` chat, `/library`, `/directory`, `/events`, `/publications`, `/admin`, `/login` |
 | Auth wrapper | Everything except `/login` requires a session (`ProtectedRoute`) |
-| Public config | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` — baked in at build time. These are *public* by design. They are not the service role key and not the Anthropic key. |
+| Public config | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` - baked in at build time. These are *public* by design. They are not the service role key and not the Anthropic key. |
 | Local-only | `VITE_ANTHROPIC_API_KEY` and `VITE_DEV_BYPASS_AUTH` work only with `npm run dev`. `vite.config.ts` **throws** if either is set during a production build. |
 
 The browser talks to Supabase in two ways:
 
-- **PostgREST** (the auto API over tables) for rows the user is allowed to touch — conversations, library documents they may see, directory, events, publications, their own profile fields that are not frozen.
+- **PostgREST** (the auto API over tables) for rows the user is allowed to touch - conversations, library documents they may see, directory, events, publications, their own profile fields that are not frozen.
 - **Edge Functions** via `src/lib/edgeFn.ts`: `Authorization: Bearer <user access token>` plus `apikey: <anon key>`. The function **rejects** a request whose Bearer token *is* the anon key.
 
 Markdown in answers only allows `http(s):` links, in-app paths starting with `/` (not `//`), and citation hashes `#nexus-cite-…` (`src/lib/safeUrl.ts`).
@@ -323,9 +323,9 @@ Markdown in answers only allows `http(s):` links, in-app paths starting with `/`
 
 Applied in order:
 
-1. `schema.sql` — tables; RLS enabled with **no policies** (fail closed).
-2. `permissions.sql` — `is_admin`, `library_role`, `banned_emails`, folder locks/viewers; bootstrap admin email.
-3. `security.sql` — helpers, triggers, scoped policies, grants.
+1. `schema.sql` - tables; RLS enabled with **no policies** (fail closed).
+2. `permissions.sql` - `is_admin`, `library_role`, `banned_emails`, folder locks/viewers; bootstrap admin email.
+3. `security.sql` - helpers, triggers, scoped policies, grants.
 
 | Table | What it holds | Who can use it (authenticated, active `@unu.edu`) |
 |---|---|---|
@@ -345,9 +345,9 @@ Applied in order:
 
 Shared code:
 
-- `_shared/auth.ts` — require a real JWT, not the anon key; `@unu.edu`; not banned; not disabled. `requireAdmin` also checks bootstrap list or `profiles.is_admin`.
-- `_shared/cors.ts` — localhost plus `ALLOWED_ORIGINS` (comma-separated, **no trailing slash**, no `*`).
-- `_shared/path.ts` — reject `.` / `..` / NUL in folder paths.
+- `_shared/auth.ts` - require a real JWT, not the anon key; `@unu.edu`; not banned; not disabled. `requireAdmin` also checks bootstrap list or `profiles.is_admin`.
+- `_shared/cors.ts` - localhost plus `ALLOWED_ORIGINS` (comma-separated, **no trailing slash**, no `*`).
+- `_shared/path.ts` - reject `.` / `..` / NUL in folder paths.
 
 **`chat`**
 
@@ -368,7 +368,7 @@ Rejects non-`@unu.edu` at the Auth HTTP hook. SQL trigger on `auth.users` alread
 
 ### 4. Anthropic
 
-Called only from `chat`. Local `npm run dev` may call Anthropic **from the browser** if `VITE_ANTHROPIC_API_KEY` is set — that path is compile-blocked for production.
+Called only from `chat`. Local `npm run dev` may call Anthropic **from the browser** if `VITE_ANTHROPIC_API_KEY` is set - that path is compile-blocked for production.
 
 ---
 
@@ -397,9 +397,9 @@ flowchart TB
 
 | Kind | Stored where | Shared? |
 |---|---|---|
-| Chat | `conversations`, `messages` | No — owner only |
+| Chat | `conversations`, `messages` | No - owner only |
 | Library text + path | `library_documents` | Yes, after RLS (role + folder ACL) |
-| Original PDF/Word/Excel bytes | Browser **IndexedDB** | No — local preview for that device |
+| Original PDF/Word/Excel bytes | Browser **IndexedDB** | No - local preview for that device |
 | Directory / events / publications | Postgres tables | Yes, all active staff |
 | Privileges, bans, folder ACL writes | Postgres; mutations via `admin` function | Admins |
 
@@ -411,14 +411,14 @@ On load, the app hydrates the library from Postgres, then **drops** any local co
 
 Code: `src/lib/retrieve.ts` → `src/lib/nexus.ts` → `chat` function.
 
-1. **Catalog** — every library file the user is allowed to see: id, path, breadcrumb, size. This is how “where is the file?” works even when the body is not retrieved.
-2. **Pinned attachments** — files attached on the composer go in first.
-3. **Score** — tokenize the question (stopwords removed). Score filename (heavy), path, breadcrumb, and limited body hits.
-4. **Budget** — up to 14 documents, ~28,000 characters each, ~120,000 characters total retrieved text.
-5. **System prompt** — retrieved docs + catalog + events register + publications register + (legacy seed document/people blocks if present) + instructions: ground claims, cite, `noAnswer` if thin.
-6. **Tool** — model must call `answer` once (structured fields: markdown, sources, follow-ups, flags).
-7. **Filter** — source ids that are not known documents/events/publications/uploads are dropped so the UI never shows a phantom citation.
-8. **Quotes on demand** — citation click calls `source_quotes` with the claim text, not the whole answer.
+1. **Catalog** - every library file the user is allowed to see: id, path, breadcrumb, size. This is how “where is the file?” works even when the body is not retrieved.
+2. **Pinned attachments** - files attached on the composer go in first.
+3. **Score** - tokenize the question (stopwords removed). Score filename (heavy), path, breadcrumb, and limited body hits.
+4. **Budget** - up to 14 documents, ~28,000 characters each, ~120,000 characters total retrieved text.
+5. **System prompt** - retrieved docs + catalog + events register + publications register + (legacy seed document/people blocks if present) + instructions: ground claims, cite, `noAnswer` if thin.
+6. **Tool** - model must call `answer` once (structured fields: markdown, sources, follow-ups, flags).
+7. **Filter** - source ids that are not known documents/events/publications/uploads are dropped so the UI never shows a phantom citation.
+8. **Quotes on demand** - citation click calls `source_quotes` with the claim text, not the whole answer.
 
 The chat function does **not** re-run retrieval. It trusts the packet the signed-in client sent **up to its caps**, after it has verified the person. Combined with RLS, a user cannot include library text they were never allowed to download.
 
@@ -449,7 +449,7 @@ PDF text uses `pdfjs-dist` in a worker. Image-only scans yield little or no text
 |---|---|---|
 | **SharePoint / Microsoft Graph** | `VITE_AZURE_CLIENT_ID` (and optional tenant) | Read-only scopes. Tokens in `sessionStorage`. Files labelled **Confidential** are not imported. Needs UN Azure AD review before production. |
 | **Local library folder** | `npm run dev` only | Vite middleware reads a desktop folder. Not in production. |
-| **Local JSON for events/publications/directory** | `npm run dev` only | `data/local/*.json` — gitignored. Production uses Postgres. |
+| **Local JSON for events/publications/directory** | `npm run dev` only | `data/local/*.json` - gitignored. Production uses Postgres. |
 
 ---
 
@@ -462,7 +462,7 @@ flowchart TB
     ANON[Anon API key]
   end
 
-  subgraph Trusted["Trusted — ICT-controlled"]
+  subgraph Trusted["Trusted - ICT-controlled"]
     RLS[Postgres RLS + triggers]
     FN[Edge Functions + secrets]
     AUTH[Supabase Auth]
@@ -492,7 +492,7 @@ Staff enter an `@unu.edu` address and receive a one-time magic link. There is no
 
 | Behaviour | Detail |
 |---|---|
-| Allowed domain | `unu.edu` — checked in the form, in Auth (SQL trigger), in session handling, and again in Edge Functions |
+| Allowed domain | `unu.edu` - checked in the form, in Auth (SQL trigger), in session handling, and again in Edge Functions |
 | Banned emails | Cannot request a link; if they somehow have a session, they are signed out |
 | Disabled accounts | Same: signed out with the admin’s reason when present |
 | Redirect after link | Back to the site origin (production URL or custom domain) |
@@ -505,7 +505,7 @@ Staff enter an `@unu.edu` address and receive a one-time magic link. There is no
 
 - UN stripe, brand mark, collapsible sidebar (remembered), mobile drawer
 - Navigation: Chat, Knowledge library, Directory, Events, Publications
-- Administrator Dashboard — only if `user.isAdmin` (UI). Server still enforces admin on every privileged action
+- Administrator Dashboard - only if `user.isAdmin` (UI). Server still enforces admin on every privileged action
 - Conversation list (your threads only), new chat, delete thread
 - Sign out
 - Light / dark toggle
@@ -543,7 +543,7 @@ Shared document corpus with folder structure. Administrators grant library roles
 | Allowed | Not allowed |
 |---|---|
 | `.pdf` | `.doc` (old Word) |
-| `.docx` | `.xls` (old Excel) — save as `.xlsx` or CSV |
+| `.docx` | `.xls` (old Excel) - save as `.xlsx` or CSV |
 | `.xlsx`, `.csv` | Random binaries, executables |
 | `.txt`, `.md`, `.markdown` | Image-only PDFs with no extractable text (practical failure, not a type ban) |
 
@@ -592,7 +592,7 @@ Search across name, organisation, role, expertise, country, tags. Sort by name, 
 
 Programme events matrix (2026). Types include conference/symposium, webinar/seminar, workshop, policy dialogue, consultation/roundtable, coordination/partnership meeting, side event, other.
 
-Also tracked (when filled): dates, strategic purpose, work package, owner, partners, funder, programme, location, modality (in person / virtual / hybrid), geographic level, participant numbers and percentages, Global South / gender / youth, south–south exchange, outputs, file/article/media links, high-level participants, status, staff count.
+Also tracked (when filled): dates, strategic purpose, work package, owner, partners, funder, programme, location, modality (in person / virtual / hybrid), geographic level, participant numbers and percentages, Global South / gender / youth, south-south exchange, outputs, file/article/media links, high-level participants, status, staff count.
 
 **Import** `.xlsx` / CSV. **Inline edit** after expanding a row. Chat can cite an event as a source (`ev-…`).
 
@@ -628,13 +628,13 @@ Bootstrap email: `ayhnassef@unu.edu` (also listed in `app_settings.bootstrap_adm
 | | Signed out | Signed in, library `none` | `view` | `edit` | Admin |
 |---|---|---|---|---|---|
 | Open the app | Login only | Yes | Yes | Yes | Yes |
-| Own chats | — | Yes | Yes | Yes | Yes |
-| Other people’s chats | — | No | No | No | No |
-| Directory / events / publications | — | Read/write | Read/write | Read/write | Read/write |
-| See unrestricted library files | — | No | Yes | Yes | Yes |
-| See locked folder | — | No | If on allow-list | If on allow-list | Always |
-| Upload / delete library | — | No | No | Where they can see | Yes |
-| Change roles / bans / locks | — | No | No | No | Yes (server) |
+| Own chats | - | Yes | Yes | Yes | Yes |
+| Other people’s chats | - | No | No | No | No |
+| Directory / events / publications | - | Read/write | Read/write | Read/write | Read/write |
+| See unrestricted library files | - | No | Yes | Yes | Yes |
+| See locked folder | - | No | If on allow-list | If on allow-list | Always |
+| Upload / delete library | - | No | No | Where they can see | Yes |
+| Change roles / bans / locks | - | No | No | No | Yes (server) |
 | Call `chat` | No | Yes* | Yes* | Yes* | Yes* |
 | Call `admin` | No | No | No | No | Yes |
 
@@ -674,7 +674,7 @@ This is a designed internal access model. It is not a UN-wide accreditation, an 
 
 **`is_active_user()`:** role `authenticated`, uid present, JWT email like `%@unu.edu`, not banned, not disabled.
 
-**Bootstrap / break-glass:** `public.app_settings` key `bootstrap_admin_emails`. `is_admin()` is true if the JWT email is on that list **or** `profiles.is_admin` (and not disabled). ICT can add an address and run `select public.elevate_bootstrap_admins();` — no code deploy. The product will not demote, ban, disable, or delete the bootstrap account from the dashboard. Bootstrap administrator in this handover: **`ayhnassef@unu.edu`**.
+**Bootstrap / break-glass:** `public.app_settings` key `bootstrap_admin_emails`. `is_admin()` is true if the JWT email is on that list **or** `profiles.is_admin` (and not disabled). ICT can add an address and run `select public.elevate_bootstrap_admins();` - no code deploy. The product will not demote, ban, disable, or delete the bootstrap account from the dashboard. Bootstrap administrator in this handover: **`ayhnassef@unu.edu`**.
 
 ---
 
@@ -722,7 +722,7 @@ Library ingest trigger `enforce_library_document_limits`: canonical path or exce
 | Control | Setting |
 |---|---|
 | Caller | Signed-in `@unu.edu`; not banned; not disabled |
-| Origin | localhost (development) plus `ALLOWED_ORIGINS` — no `*`, no trailing slash. Unknown Origin → 403 |
+| Origin | localhost (development) plus `ALLOWED_ORIGINS` - no `*`, no trailing slash. Unknown Origin → 403 |
 | Model | `claude-haiku-4-5` |
 | Tools | `answer`, `source_quotes` |
 | Size | System ≤ 400,000 characters; last 40 messages; 20,000 characters each; `max_tokens` ≤ 4096 |
@@ -745,7 +745,7 @@ Frontend (supporting): session access token in `src/lib/edgeFn.ts`; `isSafeHref`
 |---|---|---|
 | Anthropic API key | Supabase `ANTHROPIC_API_KEY` | Vercel `VITE_*`, GitHub, the browser |
 | Service role | Injected into Edge Functions | Any `VITE_*` or the client |
-| Anon key | Vercel `VITE_SUPABASE_ANON_KEY` (public by design) | Treated as a password — it is not; RLS protects data |
+| Anon key | Vercel `VITE_SUPABASE_ANON_KEY` (public by design) | Treated as a password - it is not; RLS protects data |
 | `ALLOWED_ORIGINS` | Supabase secrets | Wildcard or trailing slash |
 | `AUTH_HOOK_SECRET` | Supabase, if the hook is enabled | The client |
 
@@ -810,7 +810,7 @@ Do **not** put the Anthropic key or the Supabase **service role** key in Vercel 
 - Claude billed to an institutional Anthropic workspace
 - Bootstrap administrator able to sign in and grant library access
 
-Hands-on time: about 90–150 minutes, plus DNS propagation.
+Hands-on time: about 90-150 minutes, plus DNS propagation.
 
 ---
 
@@ -818,16 +818,16 @@ Hands-on time: about 90–150 minutes, plus DNS propagation.
 
 Use a **team / organisation** account so the project is not tied to one staff member’s personal login.
 
-1. **GitHub** — access to [SirKaiwade/UNU_Nexus](https://github.com/SirKaiwade/UNU_Nexus) (invite UN ICT, **transfer** the repo to a UNU org, or **fork**). Forks work; you then point Vercel at the fork.
-2. **Vercel** — [vercel.com](https://vercel.com) · create a team · GitHub integration allowed to that repo.
-3. **Supabase** — [supabase.com](https://supabase.com) · New project (region close to users, e.g. `eu-central-1` or a region ICT prefers). Save the database password in a password manager.
-4. **Anthropic** — [console.anthropic.com](https://console.anthropic.com) · organisation under UNU · billing · API key with access to **Claude Haiku**.
+1. **GitHub** - access to [SirKaiwade/UNU_Nexus](https://github.com/SirKaiwade/UNU_Nexus) (invite UN ICT, **transfer** the repo to a UNU org, or **fork**). Forks work; you then point Vercel at the fork.
+2. **Vercel** - [vercel.com](https://vercel.com) · create a team · GitHub integration allowed to that repo.
+3. **Supabase** - [supabase.com](https://supabase.com) · New project (region close to users, e.g. `eu-central-1` or a region ICT prefers). Save the database password in a password manager.
+4. **Anthropic** - [console.anthropic.com](https://console.anthropic.com) · organisation under UNU · billing · API key with access to **Claude Haiku**.
 
 Optional later: Microsoft Azure AD app registration (SharePoint import only).
 
 ---
 
-### Path A — Transfer this running instance
+### Path A - Transfer this running instance
 
 Use when ICT takes over the existing GitHub, Vercel, and Supabase project (data retained).
 
@@ -838,7 +838,7 @@ Use when ICT takes over the existing GitHub, Vercel, and Supabase project (data 
 
 ---
 
-### Path B — Fresh install from GitHub
+### Path B - Fresh install from GitHub
 
 Use this for a clean UN project, or if you must not reuse the demo database.
 
@@ -980,7 +980,7 @@ supabase secrets set ALLOWED_ORIGINS=https://nexus.unu.edu,https://YOUR_APP.verc
 Wrong: `https://nexus.unu.edu/`  
 Right: `https://nexus.unu.edu`
 
-Preview deployments on Vercel use URLs like `unu-nexus-git-branch-team.vercel.app`. Those **will not** call chat/admin unless you add each origin (usually you do **not** — keep previews from hitting production Claude).
+Preview deployments on Vercel use URLs like `unu-nexus-git-branch-team.vercel.app`. Those **will not** call chat/admin unless you add each origin (usually you do **not** - keep previews from hitting production Claude).
 
 Confirm:
 
@@ -997,7 +997,7 @@ You should see `ANTHROPIC_API_KEY` and `ALLOWED_ORIGINS` (values hidden).
 1. Vercel → **Add New → Project** → import the GitHub repo.
 2. Framework: **Vite** (auto-detected).
 3. Root directory: `.` (repo root).
-4. **Environment variables** — Production **and** Preview if you want previews to sign in to the same backend (often Production only is cleaner):
+4. **Environment variables** - Production **and** Preview if you want previews to sign in to the same backend (often Production only is cleaner):
 
 | Name | Value |
 |---|---|
@@ -1006,8 +1006,8 @@ You should see `ANTHROPIC_API_KEY` and `ALLOWED_ORIGINS` (values hidden).
 
 Do **not** set:
 
-- `VITE_ANTHROPIC_API_KEY` — the **build will fail**
-- `VITE_DEV_BYPASS_AUTH` — the **build will fail** if `true`
+- `VITE_ANTHROPIC_API_KEY` - the **build will fail**
+- `VITE_DEV_BYPASS_AUTH` - the **build will fail** if `true`
 - `SUPABASE_SERVICE_ROLE_KEY` as `VITE_*`
 
 5. Deploy. Wait for a green build.
@@ -1071,7 +1071,7 @@ Or open the URL in a browser. You want the Nexus login page, padlock valid.
 
 #### 8.5 Optional: make the custom domain primary
 
-In Vercel Domains, set the UN hostname as **primary** so generated links prefer it. Keep `*.vercel.app` as a redirect **or** as a secondary origin — if you keep it reachable, it **must** stay on the Auth redirect list and on `ALLOWED_ORIGINS`, or that hostname’s chat will break.
+In Vercel Domains, set the UN hostname as **primary** so generated links prefer it. Keep `*.vercel.app` as a redirect **or** as a secondary origin - if you keep it reachable, it **must** stay on the Auth redirect list and on `ALLOWED_ORIGINS`, or that hostname’s chat will break.
 
 ---
 
@@ -1079,7 +1079,7 @@ In Vercel Domains, set the UN hostname as **primary** so generated links prefer 
 
 Whenever the public URL changes, update **three** places. They must list the **same origins** (scheme + host, no path, no trailing slash).
 
-**A. Vercel** — already serving the domain (step 8).
+**A. Vercel** - already serving the domain (step 8).
 
 **B. Supabase Auth → URL configuration**
 
@@ -1110,7 +1110,7 @@ If the magic link opens then dumps you on login, **Redirect URLs** or **Site URL
 3. Open the mail (check spam if SMTP is still default).
 4. You should land **inside** Nexus, not on an error page.
 5. Sidebar: **Administrator Dashboard** visible.
-6. **Chat:** ask “What is Nexus?” — you should get a grounded or `noAnswer` reply, **not** “ANTHROPIC_API_KEY is not set” and **not** 401.
+6. **Chat:** ask “What is Nexus?” - you should get a grounded or `noAnswer` reply, **not** “ANTHROPIC_API_KEY is not set” and **not** 401.
 7. **Library:** still empty / no access for a second test user until you grant `view` or `edit`.
 8. Create a second `@unu.edu` test account: confirm they **cannot** open Admin, **cannot** see library until granted, **cannot** see a folder you lock to someone else.
 
@@ -1159,13 +1159,13 @@ npm install
 npm run dev
 ```
 
-Point Auth redirect URLs at `http://localhost:5173/**` as above. Local chat can use the Edge Function (if CORS includes localhost — it does by default) **or** the local Anthropic key.
+Point Auth redirect URLs at `http://localhost:5173/**` as above. Local chat can use the Edge Function (if CORS includes localhost - it does by default) **or** the local Anthropic key.
 
 ---
 
 ### Costs and sizing (order of magnitude)
 
-For roughly 10–15 staff, light use:
+For roughly 10-15 staff, light use:
 
 | Service | Typical |
 |---|---|
@@ -1281,7 +1281,7 @@ Keep this list short. It bypasses the “make admin” button by design.
 
 ### Account transfer
 
-This handover is the running product: GitHub `main`, the Vercel site, the Supabase project, and the Claude key on that project. ICT should hold those accounts, use an institutional Anthropic key, and — if required — move the site to a UN hostname.
+This handover is the running product: GitHub `main`, the Vercel site, the Supabase project, and the Claude key on that project. ICT should hold those accounts, use an institutional Anthropic key, and - if required - move the site to a UN hostname.
 
 | Item | Action |
 |---|---|
@@ -1321,7 +1321,7 @@ Re-run `security.sql` after pulling SQL changes (it is written to be re-runnable
 - **Supabase** Pro: enable daily backups / point-in-time recovery if the events and publications matrices are operationally critical.
 - Directory, events, publications are **shared and editable by all active staff**. Accidental wipes are possible. Export `.xlsx` periodically from the Events/Publications pages if you rely on those matrices.
 - Chat history is per user; there is no product-wide “export all chats” button.
-- Original uploaded **binaries** live in each browser’s IndexedDB — not a UN records store. Keep source files in SharePoint/drive as the system of record; Nexus holds searchable text.
+- Original uploaded **binaries** live in each browser’s IndexedDB - not a UN records store. Keep source files in SharePoint/drive as the system of record; Nexus holds searchable text.
 
 ---
 
@@ -1332,7 +1332,7 @@ Re-run `security.sql` after pulling SQL changes (it is written to be re-runnable
 - Do not add `*` to Auth redirect URLs
 - Do not grant the service role to the frontend
 - Do not demote or ban the bootstrap admin from the dashboard (the API will refuse; do not try to “fix” that in SQL unless ICT is replacing bootstrap emails in `app_settings` first)
-- Do not assume hiding `/admin` is enough — it is not; keep the admin function deployed
+- Do not assume hiding `/admin` is enough - it is not; keep the admin function deployed
 
 ---
 
