@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      // Light by default; only honor an explicit stored choice.
+      (function () {
+        try {
+          var stored = localStorage.getItem('nexus:theme');
+          document.documentElement.setAttribute(
+            'data-theme',
+            stored === 'dark' ? 'dark' : 'light'
+          );
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/un/emblem.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UNU Nexus — Institutional Knowledge</title>
+    <meta name="description" content="UNU Nexus is the AI-powered knowledge layer for UNU Global Health. Find, understand, and reuse institutional knowledge from across reports, projects, and people." />
+    <meta property="og:title" content="UNU Nexus — Institutional Knowledge" />
+    <meta property="og:description" content="An AI-powered knowledge management system for UNU Global Health researchers, program staff, and leadership." />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

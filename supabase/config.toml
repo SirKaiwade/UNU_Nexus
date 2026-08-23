@@ -1,0 +1,9 @@
+# JWT is verified inside each function so OPTIONS preflight can succeed.
+[functions.chat]
+verify_jwt = false
+
+[functions.admin]
+verify_jwt = false
+
+[functions.before-user-created]
+verify_jwt = false

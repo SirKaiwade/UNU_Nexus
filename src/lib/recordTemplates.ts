@@ -1,0 +1,85 @@
+import type { DirectoryContact, IIGHEvent, Publication } from '../types';
+
+export function emptyPublication(): Publication {
+  return {
+    id: '',
+    title: '',
+    date: null,
+    firstAuthor: null,
+    otherAuthors: null,
+    type: null,
+    outlet: null,
+    link: null,
+    doi: null,
+    collectionsLink: null,
+    externalLink: null,
+    url: null,
+    fullCitation: null,
+    pelikanProjectId: null,
+    inCollections: null,
+    isbn: null,
+    files: null,
+    workPackage: null,
+    targetAudience: null,
+    globalSouth: null,
+    purpose: null,
+  };
+}
+
+export function emptyEvent(): IIGHEvent {
+  return {
+    id: '',
+    title: '',
+    description: null,
+    date: null,
+    dateNote: null,
+    type: 'Other',
+    strategicPurpose: null,
+    workPackage: null,
+    owner: null,
+    partners: null,
+    funder: null,
+    programme: null,
+    location: null,
+    modality: 'Unspecified',
+    level: 'Unspecified',
+    totalParticipants: null,
+    countriesRepresented: null,
+    globalSouthParticipants: null,
+    globalSouthPct: null,
+    femaleParticipants: null,
+    femalePct: null,
+    youthParticipants: null,
+    southSouthExchange: null,
+    keyOutputs: null,
+    internalFileLink: null,
+    crossWpCollaboration: null,
+    websiteArticle: null,
+    mediaCoverage: null,
+    socialMedia: null,
+    highLevelParticipants: null,
+    status: null,
+    staffCount: null,
+  };
+}
+
+export function emptyContact(): DirectoryContact {
+  return {
+    id: '',
+    name: '',
+    role: '',
+    team: '',
+    organization: '',
+    category: 'other',
+    expertise: [],
+    projectIds: [],
+    documentIds: [],
+    recentContributions: [],
+    email: '',
+    location: '',
+    avatarInitials: '?',
+    avatarColor: '#006EB6',
+    tags: [],
+    notes: '',
+  };
+}
