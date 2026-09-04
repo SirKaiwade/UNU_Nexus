@@ -106,7 +106,7 @@ Tick these in order. Details for each item are under [Deploy it yourself](#deplo
 
 ### Accounts and ownership
 
-- [ ] **GitHub** - Invite the UN owner as admin, or transfer [SirKaiwade/UNU_Nexus](https://github.com/SirKaiwade/UNU_Nexus) to a UN organisation. Keep Vercel pointed at the same repo.
+- [ ] **GitHub** - Invite the UN owner as admin, or transfer [adamnassef/UNU_Nexus](https://github.com/adamnassef/UNU_Nexus) to a UN organisation. Keep Vercel pointed at the same repo.
 - [ ] **Vercel** - Transfer the project to a UN team, or recreate it against the same repo. This is where the custom domain is attached.
 - [ ] **Supabase** - Invite the UN email as **Owner** (Project Settings → General → Transfer project, or Organization → Members). Do **not** send the `service_role` key over chat or email. Optional: rotate the database password after transfer.
 - [ ] **Anthropic (Claude)** - Create a UN-held account at [console.anthropic.com](https://console.anthropic.com), add billing, generate a new API key, **replace** the key currently stored on Supabase, confirm Chat works, then **revoke** the old key.
